@@ -26,6 +26,25 @@ a { color:blue; text-decoration:underline; cursor:pointer; }
   <div id="page-container"></div>
 </div>
   <script>
+window.addEventListener("message", (event) => {
+  // OPTIONAL SECURITY CHECK
+  // if (event.origin !== "https://your-site-a.com") return;
+
+  const data = event.data;
+  if (!data || data.type !== "REMOTE_CALL") return;
+
+  const { fn, args } = data;
+
+  if (typeof window[fn] !== "function") {
+    console.warn("Function not found:", fn);
+    return;
+  }
+
+  window[fn](...(args || []));
+});
+    
+  </script>
+  <script>
     function searchRowInCurrentPage(query){
   if(!query) return;
 
