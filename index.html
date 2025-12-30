@@ -25,6 +25,22 @@ a { color:blue; text-decoration:underline; cursor:pointer; }
   style="flex:1; min-width:160px;">
   <div id="page-container"></div>
 </div>
+
+<script>
+
+
+window.addEventListener("message", (event) => {
+  if (event.origin !== "https://1pagequicksites.github.io/indexButtons/") return;
+
+  const { type, fn } = event.data;
+
+  if (type === "REMOTE_CALL" && typeof window[fn] === "function") {
+    window[fn]();
+  }
+});
+</script>
+
+  
   <script>
 window.addEventListener("message", (event) => {
   // OPTIONAL SECURITY CHECK
