@@ -20,14 +20,12 @@ a { color:blue; text-decoration:underline; cursor:pointer; }
 </style>
 </head>
 <body>
-<input
-  placeholder="🔍 Find row (e.g. 3 or text)"
+<input placeholder="🔍 Find row (e.g. 3 or text)"
   onkeydown="if(event.key==='Enter') searchRowInCurrentPage(this.value)"
-  style="flex:1; min-width:160px;"
->
+  style="flex:1; min-width:160px;">
   <div id="page-container"></div>
 </div>
-  <sript>
+  <script>
     function searchRowInCurrentPage(query){
   if(!query) return;
 
@@ -59,7 +57,7 @@ a { color:blue; text-decoration:underline; cursor:pointer; }
 
   highlightRow(match);
 }
-  </sript>
+  </script>
        <script>
        function deletePage(pageNumber) {
   if (pageNumber < 0 || pageNumber >= pages.length) {
