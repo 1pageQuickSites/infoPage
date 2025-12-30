@@ -20,17 +20,46 @@ a { color:blue; text-decoration:underline; cursor:pointer; }
 </style>
 </head>
 <body>
-
-<div class="tabs"></div>
-<div class="sheet active">
-  <div class="controls">
-
-    <input placeholder="📋 Paste multi-row data (with optional links, e.g. 'Crown | page2:row3')"
-           oninput="pasteMultiPageData(this.value)" style="flex:1; min-width:240px;">
-    <input placeholder="Filter rows" oninput="filterCurrentPage(this.value)" style="flex:1; min-width:120px;">
-  </div>
+<input
+  placeholder="🔍 Find row (e.g. 3 or text)"
+  onkeydown="if(event.key==='Enter') searchRowInCurrentPage(this.value)"
+  style="flex:1; min-width:160px;"
+>
   <div id="page-container"></div>
 </div>
+  <sript>
+    function searchRowInCurrentPage(query){
+  if(!query) return;
+
+  const page = pages[currentPageIndex];
+  if(!page) return;
+
+  const tbody = document.querySelector('.sheet table tbody');
+  if(!tbody) return;
+
+  const rows = [...tbody.querySelectorAll('tr')];
+
+  // Clear previous highlights
+  rows.forEach(r => r.style.background = '');
+
+  // If numeric → treat as row number
+  if(/^\d+$/.test(query)){
+    const rowIndex = parseInt(query, 10) - 1;
+    if(!rows[rowIndex]) return alert("Row not found");
+
+    highlightRow(rows[rowIndex]);
+    return;
+  }
+
+  // Otherwise → search text in row
+  const q = query.toLowerCase();
+  const match = rows.find(r => r.textContent.toLowerCase().includes(q));
+
+  if(!match) return alert("No matching row found");
+
+  highlightRow(match);
+}
+  </sript>
        <script>
        function deletePage(pageNumber) {
   if (pageNumber < 0 || pageNumber >= pages.length) {
